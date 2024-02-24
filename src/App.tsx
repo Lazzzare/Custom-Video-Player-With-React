@@ -1,35 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Header from "./components/Header";
+import VideoPlayer from "./components/VideoPlayer";
+import { useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
+  const [darkMode, setDarkMode] = useState<boolean>(true);
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div
+      className={`w-full min-h-screen ${
+        darkMode ? "bg-slate-900" : "bg-slate-300"
+      } flex flex-col gap-32 items-center`}
+    >
+      <Header darkMode={darkMode} setDarkMode={setDarkMode} />
+      <VideoPlayer darkMode={darkMode} setDarkMode={setDarkMode} />
+    </div>
+  );
+};
 
-export default App
+export default App;
