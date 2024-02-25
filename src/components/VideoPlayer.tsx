@@ -7,6 +7,7 @@ import {
   RiCheckboxBlankCircleLine,
   RiCheckboxCircleLine,
 } from "react-icons/ri";
+import { TbRewindBackward5, TbRewindForward5 } from "react-icons/tb";
 
 import videoFile from "../../video.mp4";
 import { DarkMode } from "../type";
@@ -20,6 +21,7 @@ const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
   const [playHoverText, setPlayHoverText] = useState<string>("");
   const [pauseHoverText, setPauseHoverText] = useState<string>("");
   const [fullScreenHoverText, setFullScreenHoverText] = useState<string>("");
+  const [videoTitleHoverText, setVideoTitleHoverText] = useState<string>("");
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   //   handlePlayPause
@@ -37,6 +39,7 @@ const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
   const handleFullScreen = () => {
     if (!fullScreen) {
       const video = videoRef.current!;
+
       const requestFullscreen = video.requestFullscreen;
 
       if (requestFullscreen) {
@@ -50,6 +53,15 @@ const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
     }
   };
 
+  const handleRewind = () => {
+    const video = videoRef.current!;
+    video.currentTime -= 5;
+  };
+  const handleWind = () => {
+    const video = videoRef.current!;
+    video.currentTime += 5;
+  };
+
   return (
     <div className="relative">
       {/* Video */}
@@ -58,7 +70,23 @@ const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
+        {videoTitleHoverText && (
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <span className="absolute p-1 rounded-t-xl text-white text-xl bg-gray-500 bg-opacity-40 w-full">
+              {videoTitleHoverText}
+            </span>
+          </motion.div>
+        )}
+
         <video
+          onMouseEnter={() =>
+            setVideoTitleHoverText("At the Cinema | Mr. Bean Official")
+          }
+          onMouseLeave={() => setVideoTitleHoverText("")}
           className="rounded-xl"
           onClick={() => {
             handlePlayPause();
@@ -70,6 +98,17 @@ const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
           preload="metadata"
         ></video>
       </motion.div>
+      {/* Rewind */}
+      <div className="flex flex-row items-center gap-4 space-x-20">
+        <TbRewindBackward5
+          onClick={handleRewind}
+          className="text-white absolute bottom-3 left-[43%] cursor-pointer text-[20px]"
+        />
+        <TbRewindForward5
+          onClick={handleWind}
+          className="text-white absolute bottom-3 left-[43%] cursor-pointer text-[20px]"
+        />
+      </div>
       {/* Play Button */}
       <motion.div
         initial={{ opacity: 0, x: -200 }}
