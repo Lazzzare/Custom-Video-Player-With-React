@@ -1,30 +1,45 @@
-# React + TypeScript + Vite
+# Rest-Countries-API
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+  <img src="./src/assets/Background.PNG">
 
-Currently, two official plugins are available:
+# About
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+this is my project - "custom video player" using the latest technologies - React, Tailwind CSS, Framer-motion and TypeScript.
 
-## Expanding the ESLint configuration
+It was interesting and fun to work on the project, and I am likely to add more functionality over time, making it even more dynamic and interesting.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+# Getting Started
 
-- Configure the top-level `parserOptions` property like this:
+![.gif](./src/assets/gif.gif);
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+1. First of all you need to clone app repository from github:
+
+```
+https://github.com/Lazzzare/Custom-Video-Player-With-React
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. Next step requires install all the dependencies.
+
+```
+npm install
+```
+
+3. Running the Project
+
+```
+npm run dev
+```
+
+# Link
+
+- Live Site URL: [Live Site](https://custom-video-player-with-react.vercel.app/)
+
+# Built With
+
+- _Vite_
+- _React_
+- _Typescript (TSX)_
+- _TailwindCss_
+- _React Hooks (useState, useEffect, useRef)_
+- _framer-motion_
+- _react-icons_
