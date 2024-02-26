@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoMdPlay } from "react-icons/io";
 import { FaPause } from "react-icons/fa6";
 import { BsFullscreen } from "react-icons/bs";
@@ -22,7 +22,11 @@ const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
   const [pauseHoverText, setPauseHoverText] = useState<string>("");
   const [fullScreenHoverText, setFullScreenHoverText] = useState<string>("");
   const [videoTitleHoverText, setVideoTitleHoverText] = useState<string>("");
+  const [videoDuration, setVideoDuration] = useState<number>(0);
+  const [currentProgress, setCurrentProgress] = useState<number>(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  console.log(`Duration: ${videoDuration} Progress: ${currentProgress}`);
 
   //   handlePlayPause
   const handlePlayPause = () => {
@@ -62,6 +66,31 @@ const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
     video.currentTime += 5;
   };
 
+  function formatTime(seconds: number) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    const formattedTime = `${String(minutes).padStart(2, "0")}:${String(
+      remainingSeconds
+    ).padStart(2, "0")}`;
+    return formattedTime;
+  }
+
+  useEffect(() => {
+    const video = videoRef.current!;
+    const handleLoadedMetadata = () => {
+      setVideoDuration(video.duration);
+    };
+    const handleTimeUpdate = () => {
+      setCurrentProgress(video.currentTime);
+    };
+    video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    video.addEventListener("timeupdate", handleTimeUpdate);
+    return () => {
+      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      video.removeEventListener("timeupdate", handleTimeUpdate);
+    };
+  }, []);
+
   return (
     <div className="relative">
       {/* Video */}
@@ -97,16 +126,21 @@ const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
           controls={false}
           preload="metadata"
         ></video>
+        <div className="absolute bottom-2.5 left-[45%] transform right-[50%]  w-full text-white text-3xl">
+          <span className="text-sm">
+            {`${formatTime(currentProgress)} / ${formatTime(videoDuration)}`}
+          </span>
+        </div>
       </motion.div>
       {/* Rewind */}
       <div className="flex flex-row items-center gap-4 space-x-20">
         <TbRewindBackward5
           onClick={handleRewind}
-          className="text-white absolute bottom-3 left-[43%] cursor-pointer text-[20px]"
+          className="text-white absolute bottom-3 left-[36%] cursor-pointer text-[20px]"
         />
         <TbRewindForward5
           onClick={handleWind}
-          className="text-white absolute bottom-3 left-[43%] cursor-pointer text-[20px]"
+          className="text-white absolute bottom-3 left-[52%] cursor-pointer text-[20px]"
         />
       </div>
       {/* Play Button */}
