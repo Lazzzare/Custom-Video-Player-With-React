@@ -1,17 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
-import { IoMdPlay } from "react-icons/io";
-import { FaPause } from "react-icons/fa6";
+import { useEffect, useRef, useState } from "react";
 import { BsFullscreen } from "react-icons/bs";
 import { CiSettings } from "react-icons/ci";
 import {
   RiCheckboxBlankCircleLine,
   RiCheckboxCircleLine,
 } from "react-icons/ri";
-import { TbRewindBackward5, TbRewindForward5 } from "react-icons/tb";
 
 import videoFile from "../../video.mp4";
 import { DarkMode } from "../type";
 import { motion } from "framer-motion";
+import Video from "./Video";
+import VideoTitle from "./VideoTitle";
+import VideoDurationAndProgress from "./VideoDurationAndProgress";
+import RewindAndForward from "./RewindAndForward";
+import PlayPause from "./PlayPause";
 
 const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
   const [playButton, setPlayButton] = useState<boolean>(true);
@@ -22,6 +24,8 @@ const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
   const [pauseHoverText, setPauseHoverText] = useState<string>("");
   const [fullScreenHoverText, setFullScreenHoverText] = useState<string>("");
   const [videoTitleHoverText, setVideoTitleHoverText] = useState<string>("");
+  const [rewindTextHover, setRewindTextHover] = useState<string>("");
+  const [forwardTextHover, setForwardTextHover] = useState<string>("");
   const [videoDuration, setVideoDuration] = useState<number>(0);
   const [currentProgress, setCurrentProgress] = useState<number>(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -66,15 +70,6 @@ const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
     video.currentTime += 5;
   };
 
-  function formatTime(seconds: number) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    const formattedTime = `${String(minutes).padStart(2, "0")}:${String(
-      remainingSeconds
-    ).padStart(2, "0")}`;
-    return formattedTime;
-  }
-
   useEffect(() => {
     const video = videoRef.current!;
     const handleLoadedMetadata = () => {
@@ -99,95 +94,37 @@ const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        {videoTitleHoverText && (
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="absolute p-1 rounded-t-xl text-white text-xl bg-gray-500 bg-opacity-40 w-full">
-              {videoTitleHoverText}
-            </span>
-          </motion.div>
-        )}
-
-        <video
-          onMouseEnter={() =>
-            setVideoTitleHoverText("At the Cinema | Mr. Bean Official")
-          }
-          onMouseLeave={() => setVideoTitleHoverText("")}
-          className="rounded-xl"
-          onClick={() => {
-            handlePlayPause();
-            setPlayButton(!playButton);
-          }}
-          ref={videoRef as React.RefObject<HTMLVideoElement>}
-          src={videoFile}
-          controls={false}
-          preload="metadata"
-        ></video>
-        <div className="absolute bottom-2.5 left-[45%] transform right-[50%]  w-full text-white text-3xl">
-          <span className="text-sm">
-            {`${formatTime(currentProgress)} / ${formatTime(videoDuration)}`}
-          </span>
-        </div>
-      </motion.div>
-      {/* Rewind */}
-      <div className="flex flex-row items-center gap-4 space-x-20">
-        <TbRewindBackward5
-          onClick={handleRewind}
-          className="text-white absolute bottom-3 left-[36%] cursor-pointer text-[20px]"
+        <VideoTitle videoTitleHoverText={videoTitleHoverText} />
+        <Video
+          setPlayButton={setPlayButton}
+          setVideoTitleHoverText={setVideoTitleHoverText}
+          handlePlayPause={handlePlayPause}
+          videoFile={videoFile}
+          videoRef={videoRef}
+          playButton={playButton}
         />
-        <TbRewindForward5
-          onClick={handleWind}
-          className="text-white absolute bottom-3 left-[52%] cursor-pointer text-[20px]"
+        <VideoDurationAndProgress
+          currentProgress={currentProgress}
+          videoDuration={videoDuration}
         />
-      </div>
-      {/* Play Button */}
-      <motion.div
-        initial={{ opacity: 0, x: -200 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1 }}
-      >
-        {playButton ? (
-          <button
-            onClick={() => {
-              handlePlayPause();
-              setPlayButton(!playButton);
-            }}
-            className="text-white absolute bottom-3 left-3"
-          >
-            <div className="flex flex-col items-start gap-3">
-              <span>{playHoverText && playHoverText}</span>
-              <IoMdPlay
-                onMouseEnter={() =>
-                  playHoverText ? null : setPlayHoverText("Play")
-                }
-                onMouseLeave={() => setPlayHoverText("")}
-              />
-            </div>
-          </button>
-        ) : (
-          // Pause Button
-          <button
-            onClick={() => {
-              handlePlayPause();
-              setPlayButton(!playButton);
-            }}
-            className="text-white absolute bottom-3 left-3"
-          >
-            <div className="flex flex-col items-start gap-3">
-              <span>{pauseHoverText && pauseHoverText}</span>
-              <FaPause
-                onMouseEnter={() =>
-                  pauseHoverText ? null : setPauseHoverText("Pause")
-                }
-                onMouseLeave={() => setPauseHoverText("")}
-              />
-            </div>
-          </button>
-        )}
       </motion.div>
+      <RewindAndForward
+        setForwardTextHover={setForwardTextHover}
+        setRewindTextHover={setRewindTextHover}
+        handleRewind={handleRewind}
+        forwardTextHover={forwardTextHover}
+        handleWind={handleWind}
+        rewindTextHover={rewindTextHover}
+      />
+      <PlayPause
+        playButton={playButton}
+        playHoverText={playHoverText}
+        setPlayButton={setPlayButton}
+        pauseHoverText={pauseHoverText}
+        handlePlayPause={handlePlayPause}
+        setPauseHoverText={setPauseHoverText}
+        setPlayHoverText={setPlayHoverText}
+      />
       {/* FullScreenButton */}
       <motion.div
         initial={{ opacity: 0, x: 100 }}
