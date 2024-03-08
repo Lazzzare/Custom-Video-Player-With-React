@@ -17,7 +17,7 @@ const VideoDurationAndProgress = ({
   videoDuration,
 }: VideoDurationAndProgressPropsType) => {
   return (
-    <div className="absolute bottom-2.5 left-[45%] transform right-[50%]  w-full text-white text-3xl">
+    <div className="absolute bottom-2.5 left-[42.5%] transform right-[50%]  w-full text-white text-3xl">
       <span className="text-sm">
         {`${formatTime(currentProgress)} / ${formatTime(videoDuration)}`}
       </span>

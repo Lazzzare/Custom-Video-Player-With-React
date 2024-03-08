@@ -24,7 +24,7 @@ const RewindAndForward = ({
           onMouseEnter={() => setRewindTextHover("Rewind 5 sec")}
           onMouseLeave={() => setRewindTextHover("")}
           onClick={handleRewind}
-          className="text-white absolute bottom-3 left-[37%] cursor-pointer text-[20px]"
+          className="text-white absolute bottom-3 left-[35%] cursor-pointer text-[20px]"
         />
         <span className="absolute bottom-10 text-white text-sm left-[30%]">
           {rewindTextHover}
@@ -34,7 +34,7 @@ const RewindAndForward = ({
         onMouseEnter={() => setForwardTextHover("Forward 5 sec")}
         onMouseLeave={() => setForwardTextHover("")}
         onClick={handleWind}
-        className="text-white absolute bottom-3 left-[51%] cursor-pointer text-[20px]"
+        className="text-white absolute bottom-3 left-[47.5%] cursor-pointer text-[20px]"
       />
       <span className="absolute bottom-10 text-white text-sm left-[46%]">
         {forwardTextHover}

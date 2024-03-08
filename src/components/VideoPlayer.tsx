@@ -107,7 +107,6 @@ const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
           currentProgress={currentProgress}
           videoDuration={videoDuration}
         />
-      </motion.div>
       <RewindAndForward
         setForwardTextHover={setForwardTextHover}
         setRewindTextHover={setRewindTextHover}
@@ -115,7 +114,8 @@ const VideoPlayer = ({ darkMode, setDarkMode }: DarkMode) => {
         forwardTextHover={forwardTextHover}
         handleWind={handleWind}
         rewindTextHover={rewindTextHover}
-      />
+        />
+      </motion.div>
       <PlayPause
         playButton={playButton}
         playHoverText={playHoverText}
